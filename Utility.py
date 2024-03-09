@@ -1,9 +1,11 @@
 websites = {
     "https://www.sap.com",
-   
 }
-"https://www.ibm.com/"
+
+max_depth = 1
+opened_urls = set()
 sidelinks = set()
-texts = set()
+url_texts = dict()
+url_tree = dict()
+buzzwords = {"artificial-intelligence", "intelligence", "machine", "learning", "artificial", "intelligen", "lern", "learn"}
 erp_ai = dict()
-buzzwords = {"artificial-intelligence", "ai", "ml", "intelligence", "machine", "learning", "artificial", "intelligen"}
