@@ -1,4 +1,5 @@
 import Huggingface
+import OpenAI
 import Scraper
 import Utility
 
@@ -22,5 +23,8 @@ def main():
     for key, item in Utility.url_texts.items():
         subject = key + "::" + item
         elements.append(subject)
+
+    for element in elements:
+        OpenAI.train(element)
 
     Huggingface.train_ai(elements)

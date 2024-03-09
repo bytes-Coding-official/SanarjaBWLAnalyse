@@ -1,5 +1,5 @@
-from transformers import AutoModelForCausalLM, Trainer, TrainingArguments
 from transformers import AutoTokenizer
+from transformers import Trainer, TrainingArguments
 
 # Modell und Tokenizer laden
 
@@ -30,15 +30,13 @@ def train_ai(items):
     passages = [passage for item in items for passage in split_into_passages(item)]
 
     model_name = 'mistralai/Mixtral-8x7B-Instruct-v0.1'
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    model = AutoTokenizer.from_pretrained(model_name)
+
     # Tokenisieren Sie die Passagen
     # Tokenisieren Sie die Passagen
-    tokenized_inputs = tokenizer(passages, padding=True, truncation=True, max_length=max_length, return_tensors="pt")
+    tokenized_inputs = model(passages, padding=True, truncation=True, max_length=max_length, return_tensors="pt")
 
     # Modell laden
-    model = AutoModelForCausalLM.from_pretrained(model_name)
 
     # Training Arguments definieren
     training_args = TrainingArguments(
