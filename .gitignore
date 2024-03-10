@@ -12,7 +12,7 @@
 
 # AWS User-specific
 .idea/**/aws.xml
-
+api.key
 # Generated files
 .idea/**/contentModel.xml
 

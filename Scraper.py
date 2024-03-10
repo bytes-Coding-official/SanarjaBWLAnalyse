@@ -6,6 +6,11 @@ from selenium import webdriver
 import Utility
 
 
+# BUZZword combinier
+
+
+
+
 class TreeNode:
     def __init__(self, url, parent=None):
         self.url = url
@@ -52,8 +57,6 @@ def analyse_websites(url, parent=None):
     # parse html
     soup = BeautifulSoup(html, "html.parser")
     # write all html in utf-8
-    with open("site.html", "w", encoding="utf-8") as file:
-        file.write(soup.prettify())
 
     a_links = soup.find_all('a', href=True)
     link_links = soup.find_all('link', href=True)
@@ -78,6 +81,7 @@ def analyse_websites(url, parent=None):
                     print("text found:", text)
                     found = True
     if not found:
+        Utility.erp_ai[mainsite] = False
         print("no text found in site:", url)
 
     links = link_filter(links, url)
@@ -105,7 +109,7 @@ def link_checker(link, url=""):
         # remove that link
         return False
         # if site doesnt start with url or starts with url but ends with .jpg .css .js
-    if not link.startswith(url) or link.endswith(".jpg") or link.endswith(".css") or link.endswith(".js"):
+    if not link.startswith(url) or link.endswith(".jpg") or link.endswith(".png") or link.endswith(".css") or link.endswith(".js"):
         # remove that link
         return False
     if link in Utility.sidelinks or link in Utility.opened_urls:

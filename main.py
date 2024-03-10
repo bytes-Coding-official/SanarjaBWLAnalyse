@@ -1,7 +1,6 @@
-import Huggingface
-import OpenAI
 import Scraper
 import Utility
+from chatgpt import *
 
 
 # with open("urls1.txt", "r") as file:
@@ -25,6 +24,15 @@ def main():
         elements.append(subject)
 
     for element in elements:
-        OpenAI.train(element)
+        train(element)
 
-    Huggingface.train_ai(elements)
+    train(elements)
+
+    print("AI training completed system is now ready to rumbleeeeee!")
+    while (user_input := input("Enter a question: ")) != "exit":
+        print("OpenAI:", send_message(user_input))
+
+
+if __name__ == "__main__":
+    send_message("was weißt du über Carina SOphie Schoppe aus Paderborn?")
+    # main()
