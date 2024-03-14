@@ -62,15 +62,22 @@ new_run = client.beta.threads.runs.create(
 )
 
 
-def get_latest_message_from_run(run):
-    new_run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
-    messages = client.beta.threads.messages.list(thread_id=thread.id)
-    for message in messages.data:
-        print(message.content[0].text.value)
-    return messages.data[-1].content[0].text.value
+def get_latest_message_from_run():
+    # Abrufen der Nachrichten im Thread
+    messages = client.beta.threads.messages.list(thread_id=thread_id)
 
-# 
-# 
+    # Überprüfen, ob Nachrichten vorhanden sind
+    if messages.data:
+        # Ausgeben der Nachrichten (optional)
+        for message in messages.data:
+            print(message.content[0].text.value)
+
+        # Rückgabe der letzten Nachricht
+        return messages.data[-1].content[0].text.value
+    else:
+        # Keine Nachrichten gefunden
+        return None
+
 # 
 # def send_message(prompt="") -> str:
 #     response = client.chat.completions.create(
