@@ -24,10 +24,6 @@ def setup():
         api_key=api_key,
     )
 
-    assistants = client.beta.assistants.list()
-
-    # Über alle Assistants iterieren und jeden löschen
-
     with open('api.key ', 'r') as file:
         try:
             assistant_id = file.readlines()[1].strip()
@@ -36,6 +32,7 @@ def setup():
             assistant = client.beta.assistants.create(
                 name="ERP-Instructor",
                 description="ERP Instructor for AI and ERP Systems",
+                instructions="I am an AI that can answer questions about ERP systems. Antworte auf Fragen zu ERP-Systemen. und Antworte auch immer auf deutsch",
                 model="gpt-4-turbo-preview",
             )
 
