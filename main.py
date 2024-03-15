@@ -1,13 +1,6 @@
 import Scraper
 import Utility
-from chatgpt import *
-
-
-# with open("urls1.txt", "r") as file:
-#     Utility.websites = file.readlines()
-#     Utility.websites = [x.strip() for x in Utility.websites]
-# 
-# print(Utility.websites)
+import chatgpt
 
 def main():
     for website in Utility.websites:
@@ -20,19 +13,19 @@ def main():
 
     elements = []
     for key, item in Utility.url_texts.items():
-        subject = key + "::" + item
+        subject = "von Website/Unternehmen " + key + " haben wir Informationen: " + item
         elements.append(subject)
 
-    for element in elements:
-        train(element)
-
-    train(elements)
+    for item in elements:
+        chatgpt.fill_assistant(item)
+    # chatgpt.run_assistant()
 
     print("AI training completed system is now ready to rumbleeeeee!")
     while (user_input := input("Enter a question: ")) != "exit":
-        print("OpenAI:", send_message(user_input))
+        print("OpenAI:", chatgpt.send_message_and_get_answer(user_input))
 
 
 if __name__ == "__main__":
-    send_message("was weißt du über Carina SOphie Schoppe aus Paderborn?")
+    chatgpt.setup()
+    print(chatgpt.send_message_and_get_answer("Ist SAP oder IBM besser?"))
     # main()
