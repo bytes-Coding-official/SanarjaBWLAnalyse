@@ -14,7 +14,8 @@ def main():
             Utility.url_tree[main_site] = Scraper.TreeNode(website)
         Scraper.analyse_websites(website)
 
-    print(Utility.url_texts)
+    if DEBUG:
+        print(Utility.url_texts)
 
     elements = []
     for key, item in Utility.url_texts.items():

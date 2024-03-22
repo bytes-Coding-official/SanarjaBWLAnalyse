@@ -190,7 +190,6 @@ def get_latest_message_from_run(run, message=""):
 
     # Nachrichten im Thread auflisten, nachdem der Run abgeschlossen ist
     messages = client.beta.threads.messages.list(thread_id=thread_id)
-
     # Die letzte Nachricht im Thread sollte die Antwort des Assistenten sein
     if messages.data:
         # Filtern Sie die Nachrichten, um nur die Antworten des Assistenten zu erhalten
