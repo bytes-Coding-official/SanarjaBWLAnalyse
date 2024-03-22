@@ -5,10 +5,9 @@ from selenium import webdriver
 
 import Utility
 
-
 # BUZZword combinier
 
-
+DEBUG = True
 
 
 class TreeNode:
@@ -41,12 +40,14 @@ def analyse_websites(url, parent=None):
     if parent is not None:
         parent.children.add(node)
 
-    print("checking depth:", node.depth, "max depth:", Utility.max_depth)
+    if DEBUG:
+        print("checking depth:", node.depth, "max depth:", Utility.max_depth)
     if node.depth > Utility.max_depth:
-        print("limit exceeded")
+        if DEBUG:
+            print("limit exceeded")
         return
-
-    print("Analysing:", url)
+    if DEBUG:
+        print("Analysing:", url)
     # Use Selenium to get the page
     driver = webdriver.Firefox()  # Or whichever browser you prefer
 
@@ -66,27 +67,26 @@ def analyse_websites(url, parent=None):
     links = [link['href'] for link in links if link['href'] != ""]
     driver.quit()
     # find any text or header or anything that is related to the buzzwords
-    texts = soup.find_all(text=True)
-    print("checking current site for texts:", url)
+    if DEBUG:
+        print("checking current site for texts:", url)
     found = False
-    for text in texts:
-        for buzzword in Utility.buzzwords:
-            # check if the text contains any of the buzzwords
-            if re.search(buzzword, text, re.IGNORECASE) and text not in Utility.url_texts:
-                if mainsite not in Utility.erp_ai:
-                    Utility.erp_ai[mainsite] = True
-                    if mainsite not in Utility.url_texts:
-                        Utility.url_texts[mainsite] = set()
-                    Utility.url_texts[mainsite].add(text)
-                    print("text found:", text)
-                    found = True
+    # Alle Textelemente durchsuchen und diejenigen speichern, die Buzzwords enthalten
+    for buzzword in Utility.buzzwords:
+        for element in soup.find_all(text=re.compile(buzzword, re.IGNORECASE)):
+            Utility.erp_ai[mainsite] = True
+            if mainsite not in Utility.url_texts:
+                Utility.url_texts[mainsite] = set()
+            Utility.url_texts[mainsite].add(element)
+            found = True
     if not found:
         Utility.erp_ai[mainsite] = False
-        print("no text found in site:", url)
+        if DEBUG:
+            print("nohing found on website / business:", url)
 
     links = link_filter(links, url)
     for link in links:
-        print("checking sublink", link)
+        if DEBUG:
+            print("checking sublink", link)
         Utility.sidelinks.add(link)
         analyse_websites(link, node)
     if mainsite not in Utility.erp_ai:
@@ -100,7 +100,8 @@ def link_filter(links, url=""):
             link = url + link
         if link_checker(link, url):
             new_links.add(link)
-    print("new links found:", new_links)
+    if DEBUG:
+        print("new links found:", new_links)
     return new_links
 
 
